@@ -3,8 +3,6 @@
 **Product & Strategy Leader** • Conversational AI, Analytics, CCaaS/CPaaS, and Salesforce-aligned automation  
 Head of Product @ **Cloobot** (AI agents for Salesforce delivery acceleration)
 
-[Email](mailto:himanshoo@gmail.com) · +91-8879855653 · India
-
 ---
 
 ## 🚀 What I’m working on
