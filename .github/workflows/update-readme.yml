@@ -1,0 +1,35 @@
+name: Update README with Repos
+
+on:
+  schedule:
+    - cron: "0 0 * * *"   # runs every night
+  workflow_dispatch:        # manual run
+  push:
+    branches:
+      - main
+
+jobs:
+  update-readme:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repo
+        uses: actions/checkout@v3
+
+      - name: Generate Repo List
+        id: repo_list
+        uses: varunsridharan/action-github-repo-list@v2
+        with:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          INCLUDE_PRIVATE: "true"
+
+      - name: Update README
+        run: |
+          sed -i "/<!--START_SECTION:my_repos-->/, /<!--END_SECTION:my_repos-->/c\<!--START_SECTION:my_repos-->\n${{ steps.repo_list.outputs.REPO_LIST }}\n<!--END_SECTION:my_repos-->" README.md
+
+      - name: Commit Changes
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git add README.md
+          git commit -m "Update repo list" || true
+          git push
