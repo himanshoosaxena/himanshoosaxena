@@ -11,40 +11,36 @@ jobs:
     permissions:
       contents: write       # allow this job to push to README
     env:
-      GH_TOKEN: ${{ secrets.REPO_TOKEN }}   # use your PAT so we see private repos too
+      GH_TOKEN: ${{ secrets.REPO_TOKEN }}   # your fine-grained PAT
 
     steps:
       - name: Checkout repo
         uses: actions/checkout@v4
 
       - name: Build repo list (with descriptions)
-        id: repos
         run: |
-          echo "REPO_MARKDOWN<<EOF" >> $GITHUB_OUTPUT
+          # gh automatically uses GH_TOKEN for auth
           gh repo list himanshoosaxena \
             --limit 100 \
             --json name,description,url,isPrivate,isFork,archived \
-            --jq '.[] | "- [\(.name)](\(.url)) — \(.description // "No description provided")"' \
-            >> $GITHUB_OUTPUT
-          echo "EOF" >> $GITHUB_OUTPUT
+            --jq '.[] | "- [" + .name + "](" + .url + ") — " + ( .description // "No description provided")' \
+            > repos.md
 
       - name: Inject repo list into README
         run: |
-          LIST="${{ steps.repos.outputs.REPO_MARKDOWN }}"
-          awk 'BEGIN{p=1}
+          awk 'BEGIN{in_block=0}
                /<!--START_SECTION:my_repos-->/ {
                  print;
-                 print "";
-                 print "'"$LIST"'";
-                 p=0;
+                 system("cat repos.md");
+                 in_block=1;
                  next
                }
                /<!--END_SECTION:my_repos-->/ {
                  print;
-                 p=1;
+                 in_block=0;
                  next
                }
-               p { print }' README.md > README.tmp
+               in_block==0 { print }' README.md > README.tmp
           mv README.tmp README.md
 
       - name: Commit & push changes (if any)
