@@ -11,20 +11,26 @@ jobs:
     permissions:
       contents: write       # allow this job to push to README
     env:
-      GH_TOKEN: ${{ secrets.REPO_TOKEN }}   # your fine-grained PAT
+      REPO_TOKEN: ${{ secrets.REPO_TOKEN }}
 
     steps:
       - name: Checkout repo
         uses: actions/checkout@v4
 
-      - name: Build repo list (with descriptions)
+      - name: Build repo list (with descriptions) via GitHub API
         run: |
-          # gh automatically uses GH_TOKEN for auth
-          gh repo list himanshoosaxena \
-            --limit 100 \
-            --json name,description,url,isPrivate,isFork,archived \
-            --jq '.[] | "- [" + .name + "](" + .url + ") — " + ( .description // "No description provided")' \
-            > repos.md
+          # Get all repositories you own (public + private)
+          curl -s \
+            -H "Authorization: Bearer $REPO_TOKEN" \
+            -H "Accept: application/vnd.github+json" \
+            "https://api.github.com/user/repos?per_page=100&affiliation=owner" \
+            > repos.json
+
+          # Generate markdown: - [name](url) - description
+          jq -r '. | sort_by(.name)[] |
+            "- [" + .name + "](" + .html_url + ") - " +
+            ( .description // "No description provided" )' \
+            repos.json > repos.md
 
       - name: Inject repo list into README
         run: |
