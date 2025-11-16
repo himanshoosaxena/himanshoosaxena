@@ -27,10 +27,12 @@ jobs:
             > repos.json
 
           # Generate markdown: - [name](url) - description
-          jq -r '. | sort_by(.name)[] |
-            "- [" + .name + "](" + .html_url + ") - " +
-            ( .description // "No description provided" )' \
-            repos.json > repos.md
+          jq -r '
+            map(select(.name != "himanshoosaxena"))
+            | sort_by(.name)[]
+            | "- [" + .name + "](" + .html_url + ") - " +
+            ( .description // "No description provided" )
+            ' repos.json > repos.md
 
       - name: Inject repo list into README
         run: |
