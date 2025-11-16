@@ -34,7 +34,7 @@ Head of Product @ **Cloobot** (AI agents for Salesforce delivery acceleration)
 These are my private repositories.  
 If you're interested in reviewing the code, feel free to **Request Access**.
 
-### 🚀 My Repositories (Auto-Generated)
+🚀 My Repositories (Auto-Generated)
 
 <!--START_SECTION:my_repos-->
 (cb-repos will appear here)
