@@ -2,34 +2,51 @@ name: Update README with Repos
 
 on:
   schedule:
-    - cron: "0 0 * * *"   # runs every night
-  workflow_dispatch:        # manual run
-  push:
-    branches:
-      - main
+    - cron: "0 0 * * *"   # run daily at midnight UTC
+  workflow_dispatch:        # allow manual run
 
 jobs:
   update-readme:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write       # allow this job to push to README
+
     steps:
-      - name: Checkout Repo
-        uses: actions/checkout@v3
+      - name: Checkout repo
+        uses: actions/checkout@v4
 
-      - name: Generate Repo List
-        id: repo_list
-        uses: varunsridharan/action-github-repo-list@v2
+      - name: Get repo list (public + private)
+        id: repos
+        uses: yi-Xu-0100/repo-list-generator@v1.1.1
         with:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          INCLUDE_PRIVATE: "true"
+          user: himanshoosaxena
+          my_token: ${{ secrets.REPO_TOKEN }}
 
-      - name: Update README
+      - name: Inject repo list into README
         run: |
-          sed -i "/<!--START_SECTION:my_repos-->/, /<!--END_SECTION:my_repos-->/c\<!--START_SECTION:my_repos-->\n${{ steps.repo_list.outputs.REPO_LIST }}\n<!--END_SECTION:my_repos-->" README.md
+          LIST="${{ steps.repos.outputs.repoList_ALL }}"
+          awk 'BEGIN{p=1}
+               /<!--START_SECTION:my_repos-->/ {
+                 print;
+                 print "";
+                 print "'"$LIST"'";
+                 p=0;
+                 next
+               }
+               /<!--END_SECTION:my_repos-->/ {
+                 print;
+                 p=1;
+                 next
+               }
+               p { print }' README.md > README.tmp
+          mv README.tmp README.md
 
-      - name: Commit Changes
+      - name: Commit & push changes (if any)
         run: |
-          git config --global user.name "github-actions[bot]"
-          git config --global user.email "github-actions[bot]@users.noreply.github.com"
-          git add README.md
-          git commit -m "Update repo list" || true
-          git push
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          if ! git diff --quiet; then
+            git add README.md
+            git commit -m "Update repo list"
+            git push
+          fi
