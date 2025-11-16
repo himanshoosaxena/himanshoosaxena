@@ -6,10 +6,13 @@ Head of Product @ **Cloobot** (AI agents for Salesforce delivery acceleration)
 ---
 
 ## 🚀 What I’m working on
-- **Cloobot** — an AI platform with BA/Architect/Testing agents that:
+- **Cloobot**
+  - Cloobot is fundamentally disrupting the consulting industry specially for the implementation segment by creating an implementation development environment (IDE) for implementation prject related to Salesforce and in future for many other products like serviceNow, ERP etc. It is building an AI platform with BA/Architect/Testing agents that:
+- Support all phases of an implementation project such as discovery, architecture and design and build.
+  - Co-pilot for pre-sales, discovery and all other build / deploy / maintain phases.
   - parse Salesforce metadata & requirements, generate user stories with ACs,
-  - create test plans & developer-ready design/tasks,
-  - **cuts manual effort by 30–50%** and **speeds delivery up to 4×** by automating discovery → design → handover.
+  - create user stories, test plans & developer-ready design/tasks,
+- **cuts manual effort by 30–50%** and **speeds delivery up to 4×** by automating discovery → design → handover.
 
 ## 🔭 Focus areas
 - Product strategy & growth • Enterprise AI (GenAI + NLU/NLP) • Conversational experiences  
@@ -24,6 +27,17 @@ Head of Product @ **Cloobot** (AI agents for Salesforce delivery acceleration)
 - Shipped **Intelligent Cloud IVR** (AI-infused) and **Customer Journey Cloud Service** analytics.  
 - Led PM orgs (up to **35** people at Leena.ai; managed **8 PMs** at Avaya).  
 - Defined product strategy in CTO/Strategy teams; owned GTM, TAM, pricing, and roadmaps.
+
+---
+
+## 🚀 Featured Private Projects  
+These are my private repositories.  
+If you're interested in reviewing the code, feel free to **Request Access**.
+
+### 🚀 My Repositories (Auto-Generated)
+
+<!--START_SECTION:my_repos-->
+<!--END_SECTION:my_repos-->
 
 ---
 
