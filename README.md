@@ -38,7 +38,6 @@ If you're interested in reviewing the code, feel free to **Request Access**.
 
 <!--START_SECTION:my_repos-->
 - [cb-prompts](https://github.com/himanshoosaxena/cb-prompts) - This contains prompts for the entire pipeline to convert transcripts, files with images etc. into text files, extract all information elements, track progress of discovery in each session and generate AI recommendations, detect conflicts etc.
-- [himanshoosaxena](https://github.com/himanshoosaxena/himanshoosaxena) - No description provided
 - [rag_Prototypes](https://github.com/himanshoosaxena/rag_Prototypes) - various prototypes for various types of RAG
 <!--END_SECTION:my_repos-->
 
