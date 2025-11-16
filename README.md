@@ -37,7 +37,9 @@ If you're interested in reviewing the code, feel free to **Request Access**.
 🚀 My Repositories (Auto-Generated)
 
 <!--START_SECTION:my_repos-->
-(cb-repos will appear here)
+- [cb-prompts](https://github.com/himanshoosaxena/cb-prompts) - Cloobot prompt work
+- [himanshoosaxena](https://github.com/himanshoosaxena/himanshoosaxena) - No description provided
+- [rag_Prototypes](https://github.com/himanshoosaxena/rag_Prototypes) - various prototypes for various types of RAG
 <!--END_SECTION:my_repos-->
 
 ---
