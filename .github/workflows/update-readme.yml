@@ -10,21 +10,27 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: write       # allow this job to push to README
+    env:
+      GH_TOKEN: ${{ secrets.REPO_TOKEN }}   # use your PAT so we see private repos too
 
     steps:
       - name: Checkout repo
         uses: actions/checkout@v4
 
-      - name: Get repo list (public + private)
+      - name: Build repo list (with descriptions)
         id: repos
-        uses: yi-Xu-0100/repo-list-generator@v1.1.1
-        with:
-          user: himanshoosaxena
-          my_token: ${{ secrets.REPO_TOKEN }}
+        run: |
+          echo "REPO_MARKDOWN<<EOF" >> $GITHUB_OUTPUT
+          gh repo list himanshoosaxena \
+            --limit 100 \
+            --json name,description,url,isPrivate,isFork,archived \
+            --jq '.[] | "- [\(.name)](\(.url)) — \(.description // "No description provided")"' \
+            >> $GITHUB_OUTPUT
+          echo "EOF" >> $GITHUB_OUTPUT
 
       - name: Inject repo list into README
         run: |
-          LIST="${{ steps.repos.outputs.repoList_ALL }}"
+          LIST="${{ steps.repos.outputs.REPO_MARKDOWN }}"
           awk 'BEGIN{p=1}
                /<!--START_SECTION:my_repos-->/ {
                  print;
